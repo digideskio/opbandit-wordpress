@@ -26,6 +26,13 @@ function opbandit_api_secret_setting_string() {
   echo "<input id='api_secret' name='opbandit_options[api_secret]' size='40' type='text' value='{$options['api_secret']}' />";
 }
 
+function opbandit_hostname_setting_string() {
+  $options = get_option('opbandit_options');
+  if($options['hostname'] == null)
+    $options['hostname'] = $_SERVER['SERVER_NAME'];
+  echo "<input id='api_secret' name='opbandit_options[hostname]' size='40' type='text' value='{$options['hostname']}' />";
+}
+
 function opbandit_options_validate($input) {
   return $input;
 }
@@ -35,6 +42,7 @@ function opbandit_admin_init() {
   add_settings_section('opbandit_main', 'Authentication Settings', 'opbandit_section_text', 'opbandit');
   add_settings_field('api_key', 'API Key', 'opbandit_api_key_setting_string', 'opbandit', 'opbandit_main');
   add_settings_field('api_secret', 'API Secret', 'opbandit_api_secret_setting_string', 'opbandit', 'opbandit_main');
+  add_settings_field('hostname', 'Site Hostname', 'opbandit_hostname_setting_string', 'opbandit', 'opbandit_main');
   add_settings_field('automark', 'Auto-mark OpBandit Titles?', 'opbandit_automark_setting_string', 'opbandit', 'opbandit_main');
 }
 add_action('admin_init', 'opbandit_admin_init');
